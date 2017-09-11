@@ -34,7 +34,10 @@ RUN apt-get install -y \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
-    
+
+# Turn off Chrome sandbox for default launch
+RUN sed -i 's/Exec=chromium-browser %U/Exec=chromium-browser --no-sandbox %U/g' /usr/share/applications/chromium-browser.desktop
+
 # Install .NET Core
 ENV DOTNET_VERSION 2.0.0
 ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-x64.tar.gz
