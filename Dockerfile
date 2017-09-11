@@ -30,6 +30,7 @@ RUN apt-get install -y \
         libtasn1-3-bin \
         libglu1-mesa \
         libreoffice chromium-browser \
+        apt-transport-https \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
