@@ -29,9 +29,31 @@ RUN apt-get install -y \
         pwgen \
         libtasn1-3-bin \
         libglu1-mesa \
+        libreoffice chromium-browser \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
+    
+# Install .NET Core
+ENV DOTNET_VERSION 2.0.0
+ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-x64.tar.gz
+ENV DOTNET_DOWNLOAD_SHA 2D4A3F8CB275C6F98EC7BE36BEF93A3B4E51CC85C418B9F6A5EEF7C4E0DE53B36587AF5CE23A56BC6584B1DE9265C67C0C3136430E02F47F44F9CFE194219178
+
+RUN curl -SL $DOTNET_DOWNLOAD_URL --output dotnet.tar.gz \
+    && echo "$DOTNET_DOWNLOAD_SHA dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /usr/share/dotnet \
+    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
+    && rm dotnet.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+    && apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install VS Code
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg \
+    && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg \
+    && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' \
+    && apt-get update && apt-get install -y code
 
 # Copy tigerVNC binaries
 ADD tigervnc-1.8.0.x86_64 /
