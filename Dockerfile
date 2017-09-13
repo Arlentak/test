@@ -31,6 +31,9 @@ RUN apt-get install -y \
         libglu1-mesa \
         libreoffice chromium-browser \
         apt-transport-https \
+        nodejs \
+        npm \
+    && npm install -g typescript \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
