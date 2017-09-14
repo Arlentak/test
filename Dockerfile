@@ -60,10 +60,12 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/
 
 # Install Postgres 9.6.
 RUN apt-get update && apt-get install -y postgresql-9.6 postgresql-contrib-9.6
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
+RUN /etc/init.d/postgresql start
 
 # Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
 USER postgres
-RUN /etc/init.d/postgresql start
 RUN psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" \
     && createdb -O geotabuser geotabuser
 USER root
