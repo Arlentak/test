@@ -62,10 +62,10 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/
 RUN apt-get update && apt-get install -y postgresql-9.6 postgresql-contrib-9.6
 
 # Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
-RUN /etc/init.d/postgresql start
 USER postgres
-RUN psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" &&\
-    createdb -O geotabuser geotabuser
+RUN /etc/init.d/postgresql start
+RUN psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" \
+    && createdb -O geotabuser geotabuser
 USER root
 
 # Copy tigerVNC binaries
