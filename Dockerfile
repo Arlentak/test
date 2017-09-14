@@ -63,7 +63,7 @@ RUN apt-get update && apt-get install -y postgresql-9.5 postgresql-contrib-9.5
 RUN echo "local   all             postgres                                peer"
 RUN echo "host all  all    127.0.0.1/32  md5" >> /etc/postgresql/9.5/main/pg_hba.conf
 RUN echo "host all  all    ::1/128  md5" >> /etc/postgresql/9.5/main/pg_hba.conf
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.5/main/postgresql.conf
 RUN /etc/init.d/postgresql start
 
 # Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
