@@ -58,13 +58,15 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97
 # Add PostgreSQL's repository.
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
-# Install Postgres 9.6
+# Install Postgres 9.6.
 RUN apt-get update && apt-get install -y postgresql-9.6 postgresql-contrib-9.6
-    
+
 # Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
-RUN    /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" &&\
+RUN /etc/init.d/postgresql start
+USER postgres
+RUN psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" &&\
     createdb -O geotabuser geotabuser
+USER root
 
 # Copy tigerVNC binaries
 ADD tigervnc-1.8.0.x86_64 /
