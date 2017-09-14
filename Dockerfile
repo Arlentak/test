@@ -54,18 +54,14 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
 # Add the PostgreSQL PGP key to verify their Debian packages.
 # It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
 RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
-
 # Add PostgreSQL's repository.
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-
 # Install Postgres 9.6.
-RUN apt-get update && apt-get install -y postgresql-9.5 postgresql-contrib-9.5
-RUN echo "local   all             postgres                                peer"
-RUN echo "host all  all    127.0.0.1/32  md5" >> /etc/postgresql/9.5/main/pg_hba.conf
-RUN echo "host all  all    ::1/128  md5" >> /etc/postgresql/9.5/main/pg_hba.conf
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.5/main/postgresql.conf
-RUN /etc/init.d/postgresql start
-
+RUN apt-get update \
+    && apt-get install -y postgresql-9.6 postgresql-contrib-9.6 \
+    && apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
 # Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
 USER postgres
 RUN psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" \
