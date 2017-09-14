@@ -64,7 +64,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 # Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
 USER postgres
-RUN psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" \
+RUN service postgresql start \
+    && psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" \
     && createdb -O geotabuser geotabuser
 USER root
 
