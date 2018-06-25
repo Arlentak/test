@@ -46,7 +46,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
     && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg \
     && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list' \
     && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' \
-    && apt-get update && apt-get install -y code dotnet-sdk-2.0.0 \
+    && apt-get update && apt-get install -y code dotnet-sdk-2.1 \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
