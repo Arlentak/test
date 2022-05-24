@@ -39,5 +39,11 @@ if [ ! -z "$NGROK" ] ; then
                 su ubuntu -c "echo -e 'Ngrok URL = $NGROK_URL/vnc.html' > $HOME/ngrok/Ngrok_URL.txt"
         esac
 fi
+if [ ! -z "$NGROKCAT" ] ; then
+        case "$NGROKCAT" in
+            [yY]|[yY][eE][sS])
+                su ubuntu -c "cat /home/ubuntu/ngrok/Ngrok_URL.txt"
+        esac
+fi
 
 /usr/bin/supervisord -n
