@@ -20,6 +20,9 @@ RUN apt-get update \
         xterm \
         sudo
 
+# Download ngrok.
+ADD https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip $HOME/ngrok/ngrok.zip
+RUN unzip -o $HOME/ngrok/ngrok.zip -d $HOME/ngrok && rm $HOME/ngrok/ngrok.zip && $HOME/ngrok/ngrok authtoken 29C3mAi2P3YjfGCREzkDrt69H0Q_5mox3jh2gTRXQE8dZxeha
 # Install dependency components.
 RUN apt-get install -y \
         supervisor \
@@ -64,8 +67,8 @@ RUN git clone https://github.com/novnc/noVNC.git $HOME/noVNC
 RUN git clone https://github.com/kanaka/websockify $HOME/noVNC/utils/websockify
 
 # Download ngrok.
-ADD https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip $HOME/ngrok/ngrok.zip
-RUN unzip -o $HOME/ngrok/ngrok.zip -d $HOME/ngrok && rm $HOME/ngrok/ngrok.zip && $HOME/ngrok/ngrok config add-authtoken 29C3mAi2P3YjfGCREzkDrt69H0Q_5mox3jh2gTRXQE8dZxeha
+#ADD https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip $HOME/ngrok/ngrok.zip
+#RUN unzip -o $HOME/ngrok/ngrok.zip -d $HOME/ngrok && rm $HOME/ngrok/ngrok.zip && $HOME/ngrok/ngrok authtoken 29C3mAi2P3YjfGCREzkDrt69H0Q_5mox3jh2gTRXQE8dZxeha
 
 # Copy supervisor config
 COPY supervisor.conf /etc/supervisor/conf.d/
