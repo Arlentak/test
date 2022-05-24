@@ -32,6 +32,7 @@ RUN apt-get install -y \
         libreoffice chromium-browser \
         apt-transport-https \
         nodejs \
+        wget \
         npm \
     && npm install -g typescript \
     && apt-get autoclean \
@@ -51,22 +52,6 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > mic
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-# Add the PostgreSQL PGP key to verify their Debian packages.
-# It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
-RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
-# Add PostgreSQL's repository.
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-# Install Postgres 9.6.
-RUN apt-get update \
-    && apt-get install -y postgresql-9.6 postgresql-contrib-9.6 \
-    && apt-get autoclean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
-# Create a PostgreSQL role named ``geotabuser`` with ``vircom43`` as the password.
-USER postgres
-RUN service postgresql start \
-    && psql --command "CREATE USER geotabuser WITH SUPERUSER PASSWORD 'vircom43';" \
-    && createdb -O geotabuser geotabuser
 USER root
 
 # Copy tigerVNC binaries
