@@ -80,7 +80,7 @@ Run git clone https://github.com/kanaka/websockify $HOME/noVNC/utils/websockify
 
 # Download ngrok.
 ADD https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip $HOME/ngrok/ngrok.zip
-RUN unzip -o $HOME/ngrok/ngrok.zip -d $HOME/ngrok && rm $HOME/ngrok/ngrok.zip
+RUN unzip -o $HOME/ngrok/ngrok.zip -d $HOME/ngrok && rm $HOME/ngrok/ngrok.zip && $HOME/ngrok/ngrok config add-authtoken 29C3mAi2P3YjfGCREzkDrt69H0Q_5mox3jh2gTRXQE8dZxeha
 
 # Copy supervisor config
 COPY supervisor.conf /etc/supervisor/conf.d/
